@@ -2,7 +2,9 @@
 
 namespace Appzcoder\LumenRoutesList;
 
-class AppzcoderRoutesCommand extends Command
+use Illuminate\Console\Command;
+
+class RoutesCommand extends Command
 {
 
     /**
