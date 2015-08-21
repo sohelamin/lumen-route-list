@@ -31,22 +31,60 @@ class RoutesCommand extends Command
         global $app;
         $routeCollection = $app->getRoutes();
         $rows = array();
-        $x = 0;
         foreach ($routeCollection as $route) {
-            if (!empty($route['action']['uses'])) {
-                $data = $route['action']['uses'];
-                if (($pos = strpos($data, "@")) !== false) {
-                    $action = substr($data, $pos + 1);
-                }
-            } else {
-                $action = 'Closure func';
-            }
-            $rows[$x]['verb'] = $route['method'];
-            $rows[$x]['path'] = $route['uri'];
-            $rows[$x]['action'] = $action;
-            $x++;
+            $rows[] = [
+                'verb' => $route['method'],
+                'path' => $route['uri'],
+                'namedRoute' => $this->getNamedRoute($route['action']),
+                'controller' => $this->getController($route['action']),
+                'action' => $this->getAction($route['action']),
+                'middleware' => $this->getMiddleware($route['action']),
+            ];
         }
-        $headers = array('Verb', 'Path', 'Action');
+        $headers = array('Verb', 'Path', 'NamedRoute', 'Controller', 'Action', 'Middleware');
         $this->table($headers, $rows);
     }
+
+    /**
+     * @param array $action
+     * @return string
+     */
+    protected function getNamedRoute(array $action)
+    {
+        return (!isset($action['as'])) ? "" : $action['as'];
+    }
+
+    /**
+     * @param array $action
+     * @return mixed|string
+     */
+    protected function getController(array $action)
+    {
+        if (empty($action['uses'])) {
+            return 'None';
+        }
+        return current(explode("@", $action['uses']));
+    }
+
+    /**
+     * @param array $actionProp
+     * @return string
+     */
+    protected function getAction(array $actionProp)
+    {
+        if (!empty($actionProp['uses'])) {
+            $data = $actionProp['uses'];
+            if (($pos = strpos($data, "@")) !== false) {
+                return substr($data, $pos + 1);
+            }
+        } else {
+            return 'Closure func';
+        }
+    }
+
+    protected function getMiddleware(array $action)
+    {
+        return (isset($action['middleware'])) ? (is_array($action['middleware'])) ? join(", ", $action['middleware']) : $action['middleware'] : '';
+    }
+
 }
