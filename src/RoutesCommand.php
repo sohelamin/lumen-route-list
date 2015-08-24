@@ -77,7 +77,7 @@ class RoutesCommand extends Command
             if (($pos = strpos($data, "@")) !== false) {
                 return substr($data, $pos + 1);
             } else {
-                return "Not Controller";
+                return "METHOD NOT FOUND";
             }
         } else {
             return 'Closure func';
