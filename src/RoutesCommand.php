@@ -76,6 +76,8 @@ class RoutesCommand extends Command
             $data = $actionProp['uses'];
             if (($pos = strpos($data, "@")) !== false) {
                 return substr($data, $pos + 1);
+            } else {
+                return "Not Controller";
             }
         } else {
             return 'Closure func';
