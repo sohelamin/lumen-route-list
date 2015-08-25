@@ -29,6 +29,7 @@ class RoutesCommand extends Command
     public function fire()
     {
         global $app;
+        
         $routeCollection = $app->getRoutes();
         $rows = array();
         foreach ($routeCollection as $route) {
@@ -41,6 +42,7 @@ class RoutesCommand extends Command
                 'middleware' => $this->getMiddleware($route['action']),
             ];
         }
+        
         $headers = array('Verb', 'Path', 'NamedRoute', 'Controller', 'Action', 'Middleware');
         $this->table($headers, $rows);
     }
@@ -63,27 +65,32 @@ class RoutesCommand extends Command
         if (empty($action['uses'])) {
             return 'None';
         }
+        
         return current(explode("@", $action['uses']));
     }
 
     /**
-     * @param array $actionProp
+     * @param array $action
      * @return string
      */
-    protected function getAction(array $actionProp)
+    protected function getAction(array $action)
     {
-        if (!empty($actionProp['uses'])) {
-            $data = $actionProp['uses'];
+        if (!empty($action['uses'])) {
+            $data = $action['uses'];
             if (($pos = strpos($data, "@")) !== false) {
                 return substr($data, $pos + 1);
             } else {
                 return "METHOD NOT FOUND";
             }
         } else {
-            return 'Closure func';
+            return 'Closure';
         }
     }
 
+    /**
+     * @param array $action
+     * @return string
+     */
     protected function getMiddleware(array $action)
     {
         return (isset($action['middleware'])) ? (is_array($action['middleware'])) ? join(", ", $action['middleware']) : $action['middleware'] : '';
