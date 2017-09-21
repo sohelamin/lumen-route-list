@@ -17,7 +17,7 @@
     ```php
     $app->register(Appzcoder\LumenRoutesList\RoutesCommandServiceProvider::class);
     ```
-3. Run **composer update**
+3. Run ```composer dump-autoload```
 
 ## Commands
 
