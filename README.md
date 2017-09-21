@@ -1,4 +1,4 @@
-# Lumen Routes List Display
+# Lumen Route List Display
 
 [![Total Downloads](https://poser.pugx.org/appzcoder/lumen-routes-list/d/total.svg)](https://packagist.org/packages/appzcoder/lumen-routes-list)
 [![Latest Stable Version](https://poser.pugx.org/appzcoder/lumen-routes-list/v/stable.svg)](https://packagist.org/packages/appzcoder/lumen-routes-list)
@@ -8,11 +8,11 @@
 
 ## Installation
 
-1. Run 
+1. Run
     ```
     composer require appzcoder/lumen-routes-list
     ```
-    
+
 2. Add service provider into **/bootstrap/app.php** file.
     ```php
     $app->register(Appzcoder\LumenRoutesList\RoutesCommandServiceProvider::class);
@@ -26,6 +26,6 @@ php artisan route:list
 ```
 
 
-##Author
+## Author
 
 <a href="http://www.sohelamin.com">Sohel Amin</a>

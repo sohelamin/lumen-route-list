@@ -1,11 +1,11 @@
 {
     "name": "appzcoder/lumen-routes-list",
     "license": "MIT",
-    "description": "Lumen Routes List Show",
+    "description": "Display the route list of Lumen",
     "keywords": [
         "lumen",
         "route list"
-    ],    
+    ],
     "authors": [
         {
             "name": "Sohel Amin",
@@ -23,5 +23,5 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true    
+    "prefer-stable": true
 }
