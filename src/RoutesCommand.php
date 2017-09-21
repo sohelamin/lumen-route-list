@@ -26,11 +26,11 @@ class RoutesCommand extends Command
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         global $app;
         
-        $routeCollection = $app->getRoutes();
+        $routeCollection = $app->router->getRoutes();
         $rows = array();
         foreach ($routeCollection as $route) {
             $rows[] = [
