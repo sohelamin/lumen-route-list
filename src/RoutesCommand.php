@@ -29,8 +29,8 @@ class RoutesCommand extends Command
     public function handle()
     {
         global $app;
-        
-        $routeCollection = $app->router->getRoutes();
+
+        $routeCollection = property_exists($app, 'router') ? $app->router->getRoutes() : $app->getRoutes();
         $rows = array();
         foreach ($routeCollection as $route) {
             $rows[] = [
@@ -42,7 +42,7 @@ class RoutesCommand extends Command
                 'middleware' => $this->getMiddleware($route['action']),
             ];
         }
-        
+
         $headers = array('Verb', 'Path', 'NamedRoute', 'Controller', 'Action', 'Middleware');
         $this->table($headers, $rows);
     }
@@ -65,7 +65,7 @@ class RoutesCommand extends Command
         if (empty($action['uses'])) {
             return 'None';
         }
-        
+
         return current(explode("@", $action['uses']));
     }
 
@@ -93,7 +93,9 @@ class RoutesCommand extends Command
      */
     protected function getMiddleware(array $action)
     {
-        return (isset($action['middleware'])) ? (is_array($action['middleware'])) ? join(", ", $action['middleware']) : $action['middleware'] : '';
+        return (isset($action['middleware']))
+            ? (is_array($action['middleware']))
+            ? join(", ", $action['middleware'])
+            : $action['middleware'] : '';
     }
-
 }
