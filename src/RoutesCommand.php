@@ -61,7 +61,7 @@ class RoutesCommand extends Command
         foreach ($routeCollection as $route) {
             $controller = $this->getController($route['action']);
             // Show class name without namesapce
-            if ($this->option('compact'))
+            if ($this->option('compact') && $controller !== 'None')
                 $controller = substr($controller, strrpos($controller, '\\') + 1);
 
             $rows[] = [
@@ -174,14 +174,14 @@ class RoutesCommand extends Command
      */
     protected function getColumns()
     {
-        $availableColumns = array_map('strtolower', $this->headers);
+        $availableColumns = array_map('lcfirst', $this->headers);
 
         if ($this->option('compact')) {
             return array_intersect($availableColumns, $this->compactColumns);
         }
 
         if ($columns = $this->option('columns')) {
-            return array_intersect($availableColumns, array_map('strtolower', $columns));
+            return array_intersect($availableColumns, array_map('lcfirst', $columns));
         }
 
         return $availableColumns;
